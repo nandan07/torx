@@ -26,5 +26,5 @@ copy key
 ## Step 4
 
 run
-torx -s {server number} -k {key} -o {output location} 
+torx -s _server number_ -k _key_ -o _output location_
 
