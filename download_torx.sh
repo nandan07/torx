@@ -1,4 +1,18 @@
 #!/bin/bash
+
+
+USAGE="Usage --  ./download_torx.sh TorX.html output_loc"
+if [ "$#" -ne 1  ]; then
+        echo "Illegal number of parameters"
+        echo "$USAGE"
+        exit
+fi
+
+if [ "$1"=="-h" ]; then
+        echo "$USAGE"
+        exit
+fi
+#------------------------------------------------------------------------------
 html_file=$1
 out_loc=$2
 links=links.csv
@@ -22,4 +36,5 @@ do
     i=$(($i+1))
     wget -O $out_file $link
 done<tmp
-echo "test"
+rm tmp $links
+echo "Done..!"
