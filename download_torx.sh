@@ -13,8 +13,20 @@ torx_link=$1
 out_loc=$2
 html_file='index.html'
 links=links.csv
+progress=0
 
-wget -O $html_file $torx_link
+
+while [ $progress -lt 100 ]
+do 
+    wget -O $html_file $torx_link 2>/dev/null 
+    progress=`cat $html_file|grep aria-valuenow |awk -F\" '{print$6}'`
+    progress=`printf "%.0f" "$progress"`
+    echo -ne "\r progress in server "$progress"%"
+    sleep 10
+done
+
+echo -ne "\rCompleted..!"
+
 # extract links
 ./get_links.py $html_file > $links
 
