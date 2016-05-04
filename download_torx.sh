@@ -1,28 +1,77 @@
 #!/bin/bash
+# ------------------------------------------------------------------
+# [Author] Title 		: Nandan
+#          Description 	: Download torrents using TorX service
+# ------------------------------------------------------------------
 
+VERSION=0.1.0
+USAGE="Usage\t: torx [OPTIONS] \
+    \n\t-k\t: key\
+    \n\t-o\t: output location\
+    \n\t-s\t: server\n"
 
-USAGE="Usage --  ./download_torx.sh TorX_key output_loc"
-if [ "$#" -lt 1  ]; then
-        echo "Illegal number of parameters"
-        echo "$USAGE"
-        exit
+# --- Options processing -------------------------------------------
+if [ $# == 0 ] ; then
+    printf "%s \n  $USAGE"
+    exit 1;
 fi
-if [ "$#" -ne 2  ]; then
-    out_loc='./'
-else
-    str=$2
-    i=$((${#str}-1))
-    c=`echo ${str:$i:1}`
-    if [ $c!="/" ]; then
-        out_loc=$2"/"
-    else
-        out_loc=$2
-    fi
+
+# --- Default Options    -------------------------------------------
+out_loc="./"
+sever_num=3
+torex_key='null'
+
+while getopts "s:o:k:vh" optname
+  do
+    case "$optname" in
+      "v")
+        echo "Version $VERSION"
+        exit 0;
+        ;;
+      "s")
+        if [ $OPTARG -lt 5 ]; then
+            sever_num=$OPTARG
+        fi
+        ;;
+      "o")
+        str=$OPTARG
+        i=$((${#str}-1))
+        c=`echo ${str:$i:1}`
+        if [ $c != "/" ]; then
+            out_loc=$OPTARG"/"
+        else
+            out_loc=$OPTARG
+        fi
+        ;;
+      "k")
+        torex_key=$OPTARG
+        ;;
+      "h")
+        printf "%s \n  $USAGE"
+        exit 0;
+        ;;
+      "?")
+        echo "Unknown option $OPTARG"
+        exit 0;
+        ;;
+      ":")
+        echo "No argument value for option $OPTARG"
+        exit 0;
+        ;;
+      *)
+        echo "Unknown error while processing options"
+        exit 0;
+        ;;
+    esac
+  done
+
+if [ $torex_key='null' ]; then
+    echo "key is empty"
+    exit 0;
 fi
 
 #------------------------------------------------------------------------------
-torex_key=$1
-server="https://s03.torx.bz/"
+server="https://s0"$sever_num".torx.bz/"
 torx_link=$server"?download="$torex_key
 html_file='index.html'
 links=links.csv
@@ -52,7 +101,7 @@ echo ""
 echo "Completed..!"
 
 # extract links
-./get_links.py $html_file $server > $links
+python ~/.torx/get_links.py $html_file $server > $links
 
 # Create Output folder
 folder=`cat $links |head -1|sed 's/ /_/g'`

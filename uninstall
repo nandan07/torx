@@ -1,0 +1,4 @@
+#!/bin/bash
+rm -rf ~/.torx
+sudo rm -f /usr/sbin/torx
+echo "Uninstalled successfully."
