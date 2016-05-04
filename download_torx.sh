@@ -60,5 +60,5 @@ do
     i=$(($i+1))
     wget -q --show-progress -O $out_file $link
 done<tmp
-rm tmp $links $html_file 
+rm tmp
 echo "Done..!"

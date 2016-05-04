@@ -10,6 +10,8 @@ def get_link(html_file):
     for line in data:
         filename = line.split('">')[1].split('</a>')[0]
         link     = line.split('"')[0]
+        if link.find('https') < 0:
+            link ='https://s03.torx.bz/' + link
         print(filename + "|" + link)
 
 html_file = sys.argv[1]
