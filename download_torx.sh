@@ -9,9 +9,12 @@ if [ "$#" -ne 2  ]; then
 fi
 
 #------------------------------------------------------------------------------
-html_file=$1
+torx_link=$1
 out_loc=$2
+html_file='index.html'
 links=links.csv
+
+wget -O $html_file $torx_link
 # extract links
 ./get_links.py $html_file > $links
 
