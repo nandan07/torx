@@ -2,15 +2,26 @@
 
 
 USAGE="Usage --  ./download_torx.sh TorX_key output_loc"
-if [ "$#" -ne 2  ]; then
+if [ "$#" -lt 1  ]; then
         echo "Illegal number of parameters"
         echo "$USAGE"
         exit
 fi
+if [ "$#" -ne 2  ]; then
+    out_loc='./'
+else
+    str=$2
+    i=$((${#str}-1))
+    c=`echo ${str:$i:1}`
+    if [ $c!="/" ]; then
+        out_loc=$2"/"
+    else
+        out_loc=$2
+    fi
+fi
 
 #------------------------------------------------------------------------------
 torex_key=$1
-out_loc=$2
 server="https://s03.torx.bz/"
 torx_link=$server"?download="$torex_key
 html_file='index.html'
