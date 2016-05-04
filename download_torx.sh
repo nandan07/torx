@@ -32,7 +32,7 @@ echo -ne "\rCompleted..!"
 
 # Create Output folder
 folder=`cat $links |head -1|sed 's/ /_/g'`
-mkdir $out_loc"/"$folder
+mkdir $out_loc""$folder
 
 #save the links in tmp file
 sed '1d' $links > tmp
@@ -42,7 +42,7 @@ while read -r line
 do
     title=`echo "$line"|awk -F\| '{print$1}'|sed 's/ /_/g'`
     link=`echo "$line"|awk -F\| '{print$2}'|sed 's/amp;//g'`
-    out_file=$out_loc"/"$folder"/"$title
+    out_file=$out_loc""$folder"/"$title
     echo "$i"
     i=$(($i+1))
     wget -O $out_file $link
