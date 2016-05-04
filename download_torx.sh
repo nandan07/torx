@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-USAGE="Usage --  ./download_torx.sh TorX.html output_loc"
+USAGE="Usage --  ./download_torx.sh TorX_key output_loc"
 if [ "$#" -ne 2  ]; then
         echo "Illegal number of parameters"
         echo "$USAGE"
@@ -9,20 +9,32 @@ if [ "$#" -ne 2  ]; then
 fi
 
 #------------------------------------------------------------------------------
-torx_link=$1
+torex_key=$1
 out_loc=$2
+torx_link="https://s03.torx.bz/?download="$torex_key
 html_file='index.html'
 links=links.csv
 progress=0
 
-
+# Check the Torrent
+wget -q -O $html_file $torx_link
+error=`cat $html_file |grep ERROR| wc -l | awk '{print$1}'`
+lines=`cat $html_file |wc -l | awk '{print$1}'`
+if [ "$error" -ge 1  ]; then
+    echo "ERROR - Torrent not found"
+    exit
+fi
+if [ "$lines" -lt 1  ]; then
+    echo "ERROR - Torrent not found"
+    exit
+fi
 while [ $progress -lt 100 ]
 do 
     wget -q -O $html_file $torx_link
     progress=`cat $html_file|grep aria-valuenow |awk -F\" '{print$6}'`
     progress=`printf "%.0f" "$progress"`
     echo -ne "\r progress in server "$progress"%"
-    sleep 1
+    sleep 5
 done
 echo ""
 echo "Completed..!"
@@ -48,5 +60,5 @@ do
     i=$(($i+1))
     wget -q --show-progress -O $out_file $link
 done<tmp
-rm tmp $links
+rm tmp $links $html_file 
 echo "Done..!"
