@@ -94,7 +94,7 @@ while [ $progress -lt 100 ]
 do 
     wget -q -O $html_file $torx_link
     progress=`cat $html_file|grep aria-valuenow |awk -F\" '{print$6}'`
-    progress=`printf "%.0f" "$progress"`
+    progress=`echo "$progress"| awk -F. '{print$1}'`
     echo -ne "\r progress in server "$progress"%"
     sleep 5
 done
