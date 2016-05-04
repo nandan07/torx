@@ -11,7 +11,8 @@ fi
 #------------------------------------------------------------------------------
 torex_key=$1
 out_loc=$2
-torx_link="https://s03.torx.bz/?download="$torex_key
+server="https://s03.torx.bz/"
+torx_link=$server"?download="$torex_key
 html_file='index.html'
 links=links.csv
 progress=0
@@ -40,7 +41,7 @@ echo ""
 echo "Completed..!"
 
 # extract links
-./get_links.py $html_file > $links
+./get_links.py $html_file $server > $links
 
 # Create Output folder
 folder=`cat $links |head -1|sed 's/ /_/g'`
