@@ -50,7 +50,7 @@ mkdir -p $out_loc""$folder
 sed '1d' $links > tmp
 
 i=1
-n=`wc -l tmp`
+n=`wc -l tmp|awk '{print$1}'`
 while read -r line
 do
     title=`echo "$line"|awk -F\| '{print$1}'|sed 's/ /_/g'`
