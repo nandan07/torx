@@ -19,7 +19,7 @@ fi
 # --- Default Options    -------------------------------------------
 out_loc="./"
 sever_num=3
-torex_key='null'
+torex_key=""
 
 while getopts "s:o:k:vh" optname
   do
@@ -65,16 +65,17 @@ while getopts "s:o:k:vh" optname
     esac
   done
 
-if [ $torex_key='null' ]; then
+
+if [ -z "$torex_key" ]; then
     echo "key is empty"
-    exit 0;
+    exit
 fi
 
 #------------------------------------------------------------------------------
 server="https://s0"$sever_num".torx.bz/"
 torx_link=$server"?download="$torex_key
-html_file='index.html'
-links=links.csv
+html_file='.index.html'
+links=.links.csv
 progress=0
 
 # Check the Torrent
@@ -108,10 +109,10 @@ folder=`cat $links |head -1|sed 's/ /_/g'`
 mkdir -p $out_loc""$folder
 
 #save the links in tmp file
-sed '1d' $links > tmp
+sed '1d' $links > .tmp
 
 i=1
-n=`wc -l tmp|awk '{print$1}'`
+n=`wc -l .tmp|awk '{print$1}'`
 while read -r line
 do
     title=`echo "$line"|awk -F\| '{print$1}'|sed 's/ /_/g'`
@@ -120,6 +121,6 @@ do
     echo "Downloading $i out of $n"
     i=$(($i+1))
     wget -q --show-progress -O $out_file $link
-done<tmp
-rm tmp
+done<.tmp
+rm .tmp $links $html_file
 echo "Done..!"
