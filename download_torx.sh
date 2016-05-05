@@ -9,7 +9,7 @@ VERSION=0.1.0
 USAGE="Usage\t: torx [OPTIONS] \
     \n\t-t\t: torrent file\
     \n\t-o\t: output location\
-    \n\t-s\t: server\n"
+    \n\t-s\t: server (1,2,3,4) \n"
 
 # --- Options processing -------------------------------------------
 if [ $# == 0 ] ; then
