@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir -p ~/.torx
-cp ./download_torx.sh ./get_links.py ./uninstall ~/.torx/
+cp ./download_torx.sh ./get_links.py ./torx.py ./uninstall ~/.torx/ 
 sudo ln -s -f ~/.torx/download_torx.sh /usr/sbin/torx
 chmod +x /usr/sbin/torx
 echo "Installed successfully..!"
